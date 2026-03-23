@@ -1,11 +1,11 @@
 pyrogram==2.0.106
-pyromod
+tgcrypto
+pyromod==1.5
 humanize
-pymongo
-Pillow
+pymongo[srv]
+pillow
 hachoir
-TgCrypto
 dnspython
-Flask
+flask
 gunicorn
 aiohttp
