@@ -1,17 +1,24 @@
 
-FROM python:latest
+FROM python:3.10-slim
 
+# Set working directory
 WORKDIR /app
 
-COPY requirements.txt /app/
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    ffmpeg \
+    git \
+    && apt-get clean
 
-RUN apt update && apt upgrade -y
-RUN apt install git python3-pip ffmpeg -y
+# Copy requirements first (for caching)
+COPY requirements.txt .
 
+# Upgrade pip & install dependencies
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy full project
 COPY . .
 
-RUN pip3 install -r requirements.txt
-
-COPY . /app
-
-CMD python3 bot.py
+# Run bot
+CMD ["python", "bot.py"]
